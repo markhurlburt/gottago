@@ -24,13 +24,13 @@ router.patch('/:id', function(req, res, next){
   });
 });
 
-// router.post('/', function(request, response, next){
-//    var bathroom = new Bathroom({name: request.body.name});
-//    bathroom.save(function(err){
-//      if(err) throw new Error(err);
-//       response.send(bathroom.toJSON());
-//    });
-// });
+router.post('/', function(request, response, next){
+   var bathroom = new Bathroom({name: request.body.name});
+   bathroom.save(function(err){
+     if(err) throw new Error(err);
+      response.send(bathroom.toJSON());
+   });
+});
 
 
 module.exports = router;
