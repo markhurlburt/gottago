@@ -13,10 +13,10 @@ router.get('/', function(req, res, next) {
   })
 });
 
-router.patch('/:id', function(req, res, next){
+router.post('/:id', function(req, res, next){
   bathroom = Bathroom.findOne({name:req.params.id},function(err,bathroom) {
     bathroom.occupied = req.body.occupied;
-    console.log(bathroom);
+    console.log(req);
     bathroom.save(function(err){
       if(err) throw new Error(err);
       res.json(bathroom);
