@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= "BATHROOMS"
+  ul.bathrooms
+  each val in bathrooms
+    li.bathroom(class=val.occupied === true ? "occupied" : undefined)
+      h2.glyphicon.glyphicon-tint= val.name
+      form(name="add-estimation", method="post" action="/bathrooms/#{val.name}?_method=PUT")
+        input(type="hidden", name="occupied" value="true")
+        button.glyphicon.glyphicon-ban-circle(type="submit", value="Occupied")
+      form(name="add-estimation", method="post" action="/bathrooms/#{val.name}?_method=PUT")
+        input(type="hidden", name="occupied" value="false")
+        button.glyphicon.glyphicon-ok-circle(type="submit", value="Unoccupied")

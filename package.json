@@ -1,5 +1,6 @@
 {
   "name": "gottago",
+  "config" : { "port" : "9000" },
   "version": "0.0.0",
   "private": true,
   "scripts": {

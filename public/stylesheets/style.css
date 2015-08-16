@@ -1,8 +1,32 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px Helvetica, Arial, sans-serif;
+  font-weight: bold;
+}
+
+h1 {
+  font: 60px "Interstate";
+  background-image: url('/images/bg_body.gif');
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
 }
 
 a {
   color: #00B7FF;
+}
+
+.occupied {
+  opacity:0.5;
+}
+
+.bathroom {
+  list-style:none;
+}
+
+.bathroom h2 {
+  display:block;
+}
+
+.bathroom form {
+  display:inline;
 }
