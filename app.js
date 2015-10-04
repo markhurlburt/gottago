@@ -6,10 +6,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var io = require('socket.io')(server);
 
-var routes = require('./routes/index');
 var bathrooms = require('./routes/bathrooms');
-app.use('/', routes);
-app.use('/bathrooms', bathrooms);
+app.use('/', bathrooms);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,8 +26,7 @@ var spark = require('spark');
 
 // Subscribe to bathroom notifications
 spark.on('login', function() {
-  spark.onEvent('bathroom', function(data) {
-    console.log(data);
+  spark.onEvent('bathrooms', function(data) {
     // Sample data: {"data":"not_occupied","ttl":"60","published_at":"2015-09-02T04:31:18.577Z","coreid":"2a0036001347343339383037","name":"bathrooms/bit"}
     var bathroom_name = data.name.substring(10);
     var bathroom_status = data.data == "occupied" ? 1 : 0;
