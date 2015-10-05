@@ -7,15 +7,31 @@ var router = express.Router();
 // var twilio = require('twilio')(accountSid, authToken);
 
 // Setup Database and Model Info
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('./data/gottago.db');
+var pg = require('pg');
+var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/restrooms';
 
 /* GET bathrooms listing. */
 router.get('/', function(req, res, next) {
-  db.all("SELECT * from bathrooms",function(err,bathrooms){
-    if(err) throw new Error(err);
-    res.render('bathrooms', { bathrooms: bathrooms });
-  })
+  var results = [];
+  // Get a Postgres client from the connection pool
+  pg.connect(connectionString, function(err, client, done) {
+      // SQL Query > Select Data
+      var query = client.query("SELECT * from restrooms");
+      // Stream results back one row at a time
+      query.on('row', function(row) {
+          results.push(row);
+      });
+      // After all data is returned, close connection and return results
+      query.on('end', function() {
+          client.end();
+          // return res.json(results);
+          res.render('bathrooms', { bathrooms: results });
+      });
+      // Handle Errors
+      if(err) {
+        console.log(err);
+      }
+  });
 });
 
 module.exports = router;

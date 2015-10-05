@@ -18,8 +18,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Setup Database and Model Info
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('./data/gottago.db');
+var pg = require('pg');
+var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/restrooms';
 
 // Setup Particle.io communications
 var spark = require('spark');
@@ -27,18 +27,29 @@ var spark = require('spark');
 // Subscribe to bathroom notifications
 spark.on('login', function() {
   spark.onEvent('bathrooms', function(data) {
+
     // Sample data: {"data":"not_occupied","ttl":"60","published_at":"2015-09-02T04:31:18.577Z","coreid":"2a0036001347343339383037","name":"bathrooms/bit"}
     var bathroom_name = data.name.substring(10);
-    var bathroom_status = data.data == "occupied" ? 1 : 0;
-    // Update DB to set Bathroom occupancy
-    db.run("UPDATE bathrooms SET occupied = ? WHERE name = ? ", bathroom_status, bathroom_name);
+    var bathroom_status = (data.data == "occupied" ? true : false);
+
+    // Get a Postgres client from the connection pool
+    pg.connect(connectionString, function(err, client, done) {
+        // SQL Query > Update Data
+        client.query("UPDATE restrooms SET occupied = $1 WHERE name = $2", [bathroom_status, bathroom_name]);
+        // Handle Errors
+        if(err) {
+          console.log(err);
+        }
+    });
+
     // Send updates to listening browsers
     io.emit('occupancy_update', { bathroom: bathroom_name, occupied:bathroom_status });
+
   });
 });
 
 // Login as usual
-var promise = spark.login({ username: 'mhurlburt@gmail.com', password: 'starwars' });
+var promise = spark.login({ username: process.env.PARTICLE_USER || 'mhurlburt@gmail.com', password: process.env.PARTICLE_PASS || 'starwars' });
 
 // ERROR HANDLERS
 
