@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Setup Database and Model Info
 var pg = require('pg');
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/restrooms';
+var connectionString = process.env.DATABASE_URL;
 
 // Setup Particle.io communications
 var spark = require('spark');
@@ -82,4 +82,4 @@ app.use(function(err, req, res, next) {
   });
 });
 
-server.listen(process.env.PORT || '3000');
+server.listen(process.env.PORT);

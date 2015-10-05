@@ -8,7 +8,7 @@ var router = express.Router();
 
 // Setup Database and Model Info
 var pg = require('pg');
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/restrooms';
+var connectionString = process.env.DATABASE_URL;
 
 /* GET bathrooms listing. */
 router.get('/', function(req, res, next) {
