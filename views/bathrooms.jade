@@ -1,8 +1,10 @@
 extends layout
 
 block content
-  h1= "BATHROOMS"
+  h1= "PRIME RESTROOMS"
   ul.bathrooms
-  each val in bathrooms
-    li.bathroom(class=val.occupied === 1 ? "occupied" : undefined, id=val.name)
-      h2.glyphicon.glyphicon-tint= val.name
+    each val in bathrooms
+      li.bathroom(class=val.occupied === 1 ? "occupied" : undefined, id=val.name)
+        div.indicator-container
+          div.indicator
+        h2= val.name

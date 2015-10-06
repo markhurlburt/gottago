@@ -2,31 +2,62 @@ body {
   padding: 50px;
   font: 14px Helvetica, Arial, sans-serif;
   font-weight: bold;
+  text-align:center;
 }
 
 h1 {
   font: 60px "Interstate";
-  background-image: url('/images/bg_body.gif');
-  -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
 }
 
 a {
   color: #00B7FF;
 }
 
-.occupied {
+.indicator-container {
+  height:100px;
+  width:200px;
+  overflow:hidden;
+  -webkit-mask-image: url('/images/window.svg');
+  display:block;
+}
+
+.indicator {
+  height:200px;
+  width:200px;
+  background:url('/images/indicator.svg');
+  transform:rotate(0deg);
+  transition: transform 0.5s;
+  transition-timing-function: ease-in-out;
+}
+
+.occupied .indicator {
+  transform:rotate(180deg);
+  transition: transform 0.5s;
+  transition-timing-function: ease-in-out;
+}
+
+/*.occupied {
   opacity:0.5;
+}*/
+
+.bathrooms {
+  margin:0 auto;
+  padding:0;
+  text-align:center;
 }
 
 .bathroom {
   list-style:none;
+  text-align:center;
+  display:inline-block;
+  padding:0 10px;
 }
 
 .bathroom h2 {
-  display:block;
-}
-
-.bathroom form {
-  display:inline;
+  font: 20px "Interstate";
+  text-transform:uppercase;
+  background:#BBBBBB;
+  border:#999999;
+  padding:5px 10px;
+  margin:5px 0;
 }
