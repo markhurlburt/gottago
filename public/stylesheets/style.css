@@ -3,10 +3,18 @@ body {
   font: 14px Helvetica, Arial, sans-serif;
   font-weight: bold;
   text-align:center;
+  background:#337277;
+;
+
 }
 
 h1 {
   font: 60px "Interstate";
+  color: #FFFFFF;
+  text-shadow: 0px 3px 0px #BBBBBB,
+               0px 14px 10px rgba(0,0,0,0.15),
+               0px 12px 2px rgba(0,0,0,0.1),
+               0px 14px 16px rgba(0,0,0,0.1);
 }
 
 a {
@@ -56,8 +64,8 @@ a {
 .bathroom h2 {
   font: 20px "Interstate";
   text-transform:uppercase;
-  background:#BBBBBB;
-  border:#999999;
   padding:5px 10px;
   margin:5px 0;
+  color: rgba(0,0,0,0.5);
+  text-shadow: 0 1px 1px rgba(255,255,255,0.2);
 }
