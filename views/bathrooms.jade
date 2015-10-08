@@ -7,4 +7,5 @@ block content
       li.bathroom(class=val.occupied === 1 ? "occupied" : undefined, id=val.name)
         div.indicator-container
           div.indicator
-        h2= val.name
+        h2= "Bathroom "+val.name.substring(8,9)
+    img.diagram(src="/images/bathrooms.svg")

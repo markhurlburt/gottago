@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
   // Get a Postgres client from the connection pool
   pg.connect(connectionString, function(err, client, done) {
       // SQL Query > Select Data
-      var query = client.query("SELECT * from restrooms");
+      var query = client.query("SELECT * from restrooms ORDER BY name ASC");
       // Stream results back one row at a time
       query.on('row', function(row) {
           results.push(row);
