@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var router = express.Router();
 var server = require('http').Server(app);
 var path = require('path');
 var logger = require('morgan');
@@ -9,8 +10,31 @@ var io = require('socket.io')(server);
 var rollbar = require('rollbar');
 app.use(rollbar.errorHandler('46f6f3ba54814daa9b6e9180c4ad861b'));
 
-var bathrooms = require('./routes/bathrooms');
-app.use('/', bathrooms);
+/* GET bathrooms listing. */
+router.get('/', function(req, res, next) {
+  var results = [];
+  // Get a Postgres client from the connection pool
+  pg.connect(connectionString, function(err, client, done) {
+      // SQL Query > Select Data
+      var query = client.query("SELECT * from restrooms ORDER BY name ASC");
+      // Stream results back one row at a time
+      query.on('row', function(row) {
+          results.push(row);
+      });
+      // After all data is returned, close connection and return results
+      query.on('end', function() {
+          client.end();
+          // return res.json(results);
+          res.render('bathrooms', { bathrooms: results });
+      });
+      // Handle Errors
+      if(err) {
+        console.log(err);
+      }
+  });
+});
+
+app.use('/', router);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
