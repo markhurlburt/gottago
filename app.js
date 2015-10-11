@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var router = express.Router();
 var server = require('http').Server(app);
 var path = require('path');
 var logger = require('morgan');
@@ -46,6 +45,7 @@ var promise = spark.login({ username: process.env.PARTICLE_USER || 'mhurlburt@gm
 
 
 /* GET bathrooms listing. */
+var router = express.Router();
 router.get('/', function(req, res, next) {
   var results = [];
   // Get a Postgres client from the connection pool
