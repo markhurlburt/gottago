@@ -10,40 +10,6 @@ var io = require('socket.io')(server);
 var rollbar = require('rollbar');
 app.use(rollbar.errorHandler('46f6f3ba54814daa9b6e9180c4ad861b'));
 
-/* GET bathrooms listing. */
-router.get('/', function(req, res, next) {
-  var results = [];
-  // Get a Postgres client from the connection pool
-  pg.connect(connectionString, function(err, client, done) {
-      // SQL Query > Select Data
-      var query = client.query("SELECT * from restrooms ORDER BY name ASC");
-      // Stream results back one row at a time
-      query.on('row', function(row) {
-          results.push(row);
-      });
-      // After all data is returned, close connection and return results
-      query.on('end', function() {
-          client.end();
-          // return res.json(results);
-          res.render('bathrooms', { bathrooms: results });
-      });
-      // Handle Errors
-      if(err) {
-        console.log(err);
-      }
-  });
-});
-
-app.use('/', router);
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-app.use(logger('dev'));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
 // Setup Database and Model Info
 var pg = require('pg');
 var connectionString = process.env.DATABASE_URL;
@@ -77,6 +43,41 @@ spark.on('login', function() {
 
 // Login as usual
 var promise = spark.login({ username: process.env.PARTICLE_USER || 'mhurlburt@gmail.com', password: process.env.PARTICLE_PASS || 'starwars' });
+
+
+/* GET bathrooms listing. */
+router.get('/', function(req, res, next) {
+  var results = [];
+  // Get a Postgres client from the connection pool
+  pg.connect(connectionString, function(err, client, done) {
+      // SQL Query > Select Data
+      var query = client.query("SELECT * from restrooms ORDER BY name ASC");
+      // Stream results back one row at a time
+      query.on('row', function(row) {
+          results.push(row);
+      });
+      // After all data is returned, close connection and return results
+      query.on('end', function() {
+          client.end();
+          // return res.json(results);
+          res.render('bathrooms', { bathrooms: results });
+      });
+      // Handle Errors
+      if(err) {
+        console.log(err);
+      }
+  });
+});
+
+app.use('/', router);
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+app.use(logger('dev'));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // ERROR HANDLERS
 
