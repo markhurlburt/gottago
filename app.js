@@ -6,6 +6,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var io = require('socket.io')(server);
 
+var rollbar = require('rollbar');
+app.use(rollbar.errorHandler('46f6f3ba54814daa9b6e9180c4ad861b'));
+
 var bathrooms = require('./routes/bathrooms');
 app.use('/', bathrooms);
 
